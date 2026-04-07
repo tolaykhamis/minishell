@@ -1,4 +1,7 @@
+
+
 #include "minishell.h"
+
 char    **copy_envp(char **envp)
 {
     int     i;
@@ -61,9 +64,6 @@ int main(int argc, char **argv, char **envp)
                     argumentssloop(tokens, &cmds);
                     expander(&cmds, &shell);
                     shell.cmds = cmds;          
-                    // debug_tokens(tokens);
-                    // debug_commands(cmds);
-                    // debug_pipeline(cmds);
                     execute_command(&shell);
                     free_cmds(cmds);
                     shell.cmds = NULL;          

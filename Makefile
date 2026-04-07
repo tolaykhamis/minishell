@@ -12,21 +12,27 @@ SRCS		= main.c \
 		  parsing.c \
 		  parsingredirect.c \
 		  expansion.c \
+		  expansion2.c \
 		  errorhandler.c \
 		  helpersforerror.c \
 		  builtin_functions.c \
 		  external_function.c \
 		  init_t_command.c \
-		  path.c \
 		  frees.c \
 		  red.c \
 		  signals.c \
 		  utils.c \
 		  helpme.c \
+		  helpme2.c \
+		  helpme3.c \
 		  join.c \
 		  pipe.c \
+		  editing_env_path.c \
+		  builtin_fun1.c \
+		  builtin_fun2.c \
 		  execution.c \
-		  readtheline.c
+		  readtheline.c \
+		  readtheline2.c
 
 OBJS		= $(SRCS:.c=.o)
 

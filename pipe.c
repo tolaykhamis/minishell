@@ -9,8 +9,8 @@ static int  cmds_len(t_cmdlist *cmds)
     tmp = cmds;
     while (tmp)
     {
-        i++;
         tmp = tmp->next;
+        i++;
     }
     return (i);
 }
@@ -50,7 +50,7 @@ static void child_process(t_shell *shell, t_cmdlist *cmd,
     if (ft_strchr(cmd->av[0], '/'))
         path = cmd->av[0];
     else
-        path = command_path(cmd->av[0], shell->envp);
+        path = command_path(cmd->av[0], shell->envp,0);
     if (!path)
     {
         put_str_fd("minishell: ", 2);

@@ -114,15 +114,33 @@ void execute_external(t_shell *shell,t_cmdlist *cmd);
 void init_isbuiltin(t_cmdlist *cmd);
 char	*ft_strjoin(char  *s1, char  *s2);
 char *get_path_from_env(char **env);
-char *command_path(char *cmd, char **env);
 char	*ft_strchr(const char *s, int c);
 void	put_str_fd(char *s, int fd);
 int	ft_atoi(const char *str);
 void	handle_cmds(t_token *tokens, t_cmdlist **cmds);
-// void	argumentssloop(t_token *tokens, t_cmdlist **cmds);
 int     apply_redirections(t_cmdlist *cmd, t_shell *shell);
 void setup_signals_interactive(void);
 void setup_signals_child(void);
 void setup_signals_heredoc(void);
+int builtin_cd(t_shell *shell, t_cmdlist *cmd);
+char **remove_from_envp(char **envp, char *name);
+char **add_to_envp(char **envp, char *new);
+char *get_env_name(char **envp, char *name);
+int  builtin_echo(t_cmdlist *cmd);
+void update_pwd(t_shell *shell);
+int  builtin_pwd(void);
+int  builtin_exit(t_shell *shell, t_cmdlist *cmd);
+int  builtin_env(t_shell *shell);
+int is_numeric(char *s);
+void free_free(char **arr);
+char **takeword(char *str, t_shell *shell);
+void	free_i(char **res, int i);
+char	*word_dup(const char *s, size_t len);
+int	count_words(const char *s, char c);
+char	*quote_removal_part_100(char *str);
+char *command_path(char *cmd, char **env,int i);
+const char *token_name(enum token type);
+int	fill(char **res, const char *s, char c);
+
 
 #endif
