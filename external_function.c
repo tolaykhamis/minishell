@@ -19,7 +19,7 @@ char *command_path(char *cmd, char **env,int i)
         if (!access(full_path, X_OK))
         {
             free_free(all_paths);
-            return full_path;
+            return (full_path);
         }
         free(full_path);
         i++;

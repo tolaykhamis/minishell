@@ -25,14 +25,38 @@ static int  is_valid_id(char *str)
 return (1);
 }
 
+// static void print_export(char **envp)
+// {
+//     int i = 0;
+//     while (envp[i])
+//     {
+//         put_str_fd("declare -x ", 1);
+//         char *eq = ft_strchr(envp[i], '=');
+//         if (eq)
+//         {
+//             write(1, envp[i], eq - envp[i]);
+//             put_str_fd("=\"", 1);
+//             put_str_fd(eq + 1, 1);
+//             put_str_fd("\"\n", 1);
+//         }
+//         else
+//         {
+//             put_str_fd(envp[i], 1);
+//             put_str_fd("\n", 1);
+//         }
+//         i++;
+//     }
+// }
 
 static int  builtin_export(t_shell *shell, t_cmdlist *cmd)
 {
     int     i;
 
     if (!cmd->av[1])
-       builtin_env(shell);
-
+    {
+        print_export(shell->envp);
+        return (0);
+    }
     i = 1;
     while (cmd->av[i])
     {

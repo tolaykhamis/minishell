@@ -1,27 +1,6 @@
 #include "minishell.h"
 
-static int  cmds_len(t_cmdlist *cmds)
-{
-    int         i;
-    t_cmdlist   *tmp;
 
-    i = 0;
-    tmp = cmds;
-    while (tmp)
-    {
-        tmp = tmp->next;
-        i++;
-    }
-    return (i);
-}
-
-static pid_t    *init_pids(int count)
-{
-    pid_t   *pids;
-
-    pids = ft_calloc(count, sizeof(pid_t));
-    return (pids);
-}
 
 static void child_process(t_shell *shell, t_cmdlist *cmd,
                             int prev_fd, int *pipe_fd)
@@ -44,6 +23,8 @@ static void child_process(t_shell *shell, t_cmdlist *cmd,
         if (apply_redirections(cmd, shell) < 0)
             exit(1);
     }
+    if (!cmd->av || !cmd->av[0])
+		exit(0);
     init_isbuiltin(cmd);
     if (cmd->is_builtin)
         exit(execute_builtin(shell, cmd));
@@ -59,63 +40,51 @@ static void child_process(t_shell *shell, t_cmdlist *cmd,
         exit(127);
     }
     execve(path, cmd->av, shell->envp);
+    if (path != cmd->av[0])
+		free(path);
     perror(cmd->av[0]);
     exit(126);
 }
-
-static void wait_all(t_shell *shell, pid_t *pids, int count)
+static void execute_pipeline_cmd(t_shell *shell, t_cmdlist *cmd,
+                                 int prev_fd, int *pipe_fd, pid_t *pid)
 {
-    int i;
-    int status;
-
-    i = 0;
-    while (i < count)
+    *pid = fork();
+    if (*pid == 0)
     {
-        waitpid(pids[i], &status, 0);
-        if (i == count - 1)
-        {
-            if (WIFEXITED(status))
-                shell->exit_status = WEXITSTATUS(status);
-            else if (WIFSIGNALED(status))
-                shell->exit_status = 128 + WTERMSIG(status);
-        }
-        i++;
+        setup_signals_child();
+        child_process(shell, cmd, prev_fd, pipe_fd ? pipe_fd : NULL);
+    }
+
+    if (prev_fd != STDIN_FILENO)
+        close(prev_fd);
+
+    if (pipe_fd)
+    {
+        close(pipe_fd[1]);
     }
 }
 
-void    pipeline_execution(t_shell *shell)
+void pipeline_execution(t_shell *shell,int i)
 {
-    t_cmdlist   *cmd;
-    int         pipe_fd[2];
-    int         prev_fd;
-    pid_t       *pids;
-    int         count;
-    int         i;
+    t_cmdlist *cmd;
+    int pipe_fd[2];
+    int prev_fd;
+    pid_t *pids;
+    int count;
 
     count = cmds_len(shell->cmds);
     pids = init_pids(count);
     if (!pids)
-        return ;
+        return;
     prev_fd = STDIN_FILENO;
     cmd = shell->cmds;
-    i = 0;
     while (cmd)
     {
         if (cmd->next)
             pipe(pipe_fd);
-        pids[i] = fork();
-        if (pids[i] == 0)
-        {
-            setup_signals_child();
-            child_process(shell, cmd, prev_fd, cmd->next ? pipe_fd : NULL);
-        }
-        if (prev_fd != STDIN_FILENO)
-            close(prev_fd);
+        execute_pipeline_cmd(shell, cmd, prev_fd, cmd->next ? pipe_fd : NULL, &pids[i]);
         if (cmd->next)
-        {
-            close(pipe_fd[1]);
             prev_fd = pipe_fd[0];
-        }
         cmd = cmd->next;
         i++;
     }

@@ -57,6 +57,7 @@ static char	**handle_expansion(char **old_av, int size, t_shell *shell)
 		free(split);
 		free(old_av[i++]);
 	}
+	free(old_av);
 	return (new_av);
 }
 

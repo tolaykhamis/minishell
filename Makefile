@@ -32,6 +32,10 @@ SRCS		= main.c \
 		  builtin_fun2.c \
 		  execution.c \
 		  readtheline.c \
+		  heredoc.c \
+		  export.c \
+		  test.c \
+		  pipe_helper.c \
 		  readtheline2.c
 
 OBJS		= $(SRCS:.c=.o)

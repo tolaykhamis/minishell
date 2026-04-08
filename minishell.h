@@ -109,7 +109,7 @@ char	*convert(enum token type);
 int execute_builtin(t_shell *shell,t_cmdlist *cmd);
 void execute_command(t_shell *shell);
 void single_execution(t_shell *shell,t_cmdlist *cmd);
-void    pipeline_execution(t_shell *shell);
+void    pipeline_execution(t_shell *shell,int i);
 void execute_external(t_shell *shell,t_cmdlist *cmd);
 void init_isbuiltin(t_cmdlist *cmd);
 char	*ft_strjoin(char  *s1, char  *s2);
@@ -141,6 +141,13 @@ char	*quote_removal_part_100(char *str);
 char *command_path(char *cmd, char **env,int i);
 const char *token_name(enum token type);
 int	fill(char **res, const char *s, char c);
+int apply_heredoc(t_redi *rd, t_shell *shell);
+void swap(char **a, char **b);
+void print_export(char **envp);
+char    **copy_envp(char **envp);
+void wait_all(t_shell *shell, pid_t *pids, int count);
+pid_t    *init_pids(int count);
+int  cmds_len(t_cmdlist *cmds);
 
 
 #endif

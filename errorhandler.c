@@ -29,7 +29,7 @@ int	valoftoken(t_token *t)
 	}
 	if (redi(t->type))
 	{
-		if (!t->next)
+		if (!t->next || t->next->type != TOKEN_WORD)
 			return (outputerror("newline"));
 		if (t->next->type != TOKEN_WORD)
 			return (outputerror(convert(t->next->type)));
@@ -49,6 +49,11 @@ int	check_syntax(t_token *tokens)
 	t = tokens;
 	while (t)
 	{
+		if (redi(t->type))
+		{
+			if (!t->next || t->next->type != TOKEN_WORD)
+				return (outputerror("newline"));
+		}
 		err = valoftoken(t);
 		if (err != 0)
 			return (err);

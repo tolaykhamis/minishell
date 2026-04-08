@@ -41,11 +41,11 @@ static int update_existing(char **envp, char *new)
         {
             free(envp[i]);
             envp[i] = ft_strdup(new);
-            return 1;
+            return (1);
         }
         i++;
     }
-    return 0;
+    return (0);
 }
 static char **add_new(char **envp, char *new)
 {
@@ -70,7 +70,7 @@ static char **add_new(char **envp, char *new)
     new_envp[i + 1] = NULL;
 
     free(envp);
-    return new_envp;
+    return (new_envp);
 }
 char **add_to_envp(char **envp, char *new)
 {
@@ -78,7 +78,7 @@ char **add_to_envp(char **envp, char *new)
         return envp;
 
     if (update_existing(envp, new))
-        return envp;
+        return (envp);
 
     return add_new(envp, new);
 }

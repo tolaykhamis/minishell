@@ -49,34 +49,34 @@ void free_cmds(t_cmdlist *cmds)
         cmds = tmp;
     }
 }
-void	freeeeeeeeeeeeeee(t_cmdlist *cmds)
-{
-	t_cmdlist	*tmp_cmd;
-	t_redi		*tmp_redi;
-	int			i;
+// void	freeeeeeeeeeeeeee(t_cmdlist *cmds)
+// {
+// 	t_cmdlist	*tmp_cmd;
+// 	t_redi		*tmp_redi;
+// 	int			i;
 
-	while (cmds)
-	{
-		tmp_cmd = cmds->next;
-		if (cmds->av)
-		{
-			i = 0;
-			while (cmds->av[i])
-				free(cmds->av[i++]);
-			free(cmds->av);
-		}
-		while (cmds->redirs)
-		{
-			tmp_redi = cmds->redirs->next;
-			if (cmds->redirs->f)
-				free(cmds->redirs->f);
-			free(cmds->redirs);
-			cmds->redirs = tmp_redi;
-		}
-		free(cmds);
-		cmds = tmp_cmd;
-	}
-}
+// 	while (cmds)
+// 	{
+// 		tmp_cmd = cmds->next;
+// 		if (cmds->av)
+// 		{
+// 			i = 0;
+// 			while (cmds->av[i])
+// 				free(cmds->av[i++]);
+// 			free(cmds->av);
+// 		}
+// 		while (cmds->redirs)
+// 		{
+// 			tmp_redi = cmds->redirs->next;
+// 			if (cmds->redirs->f)
+// 				free(cmds->redirs->f);
+// 			free(cmds->redirs);
+// 			cmds->redirs = tmp_redi;
+// 		}
+// 		free(cmds);
+// 		cmds = tmp_cmd;
+// 	}
+// }
 void free_free(char **arr)
 {
     int i = 0;

@@ -17,4 +17,10 @@ void init_isbuiltin(t_cmdlist *cmd)
     else
         cmd->is_builtin = 0;
 }
+void swap(char **a, char **b)
+{
+    char *tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
 
