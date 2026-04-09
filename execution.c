@@ -19,14 +19,14 @@ static int  prepare_execution(t_shell *shell, t_cmdlist *cmd,
     if (cmd->redirs)
     {
         if (apply_redirections(cmd, shell) < 0)
-        {
-            shell->exit_status = 1;
-            dup2(saved_stdin, STDIN_FILENO);
-            dup2(saved_stdout, STDOUT_FILENO);
-            close(saved_stdin);
-            close(saved_stdout);
-            return (0);
-        }
+            {
+                shell->exit_status = 1;
+                dup2(saved_stdin, STDIN_FILENO);
+                dup2(saved_stdout, STDOUT_FILENO);
+                close(saved_stdin);
+                close(saved_stdout);
+                return (0);
+            }
     }
     if (!cmd->av || !cmd->av[0])
     {

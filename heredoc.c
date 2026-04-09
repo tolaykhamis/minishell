@@ -29,6 +29,8 @@ static void read_heredoc_input(t_redi *rd, t_shell *shell, int write_fd)
 static int  handle_heredoc(t_redi *rd, t_shell *shell)
 {
     int pipe_fd[2];
+    static int prev_fd;
+    char *str;
 
     setup_signals_heredoc();
     if (pipe(pipe_fd) < 0)
@@ -42,7 +44,7 @@ int apply_heredoc(t_redi *rd, t_shell *shell)
     int fd = handle_heredoc(rd, shell);
     if (fd < 0)
         return (-1);
-    dup2(fd, STDIN_FILENO);
+   dup2(fd, STDIN_FILENO);
     close(fd);
     return (0);
 }

@@ -24,3 +24,17 @@ void swap(char **a, char **b)
     *b = tmp;
 }
 
+int yes_value(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == '=')
+            return (1);
+        i++;
+    }
+    return (0);
+}
+

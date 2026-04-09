@@ -1,4 +1,4 @@
-#ifndef MINISHELL_H 
+#ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include <stdio.h>
@@ -52,6 +52,7 @@ typedef struct s_cmdlist
 typedef struct s_shell
 {
 	char		**envp;
+	char		**export;
 	int			exit_status;
 	t_cmdlist	*cmds;
 } t_shell;
@@ -148,6 +149,7 @@ char    **copy_envp(char **envp);
 void wait_all(t_shell *shell, pid_t *pids, int count);
 pid_t    *init_pids(int count);
 int  cmds_len(t_cmdlist *cmds);
+int yes_value(char *str);
 
 
 #endif

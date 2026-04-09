@@ -3,7 +3,7 @@
 
 static int redirect_fd(const char *file, int flags, mode_t mode, int target_fd)
 {
-    int fd = open(file, flags, mode);  
+    int fd = open(file, flags, mode);
     if (fd < 0)
     {
         put_str_fd("minishell: ", 2);
@@ -12,7 +12,7 @@ static int redirect_fd(const char *file, int flags, mode_t mode, int target_fd)
         perror(NULL);
         return (-1);
     }
-    dup2(fd, target_fd); 
+    dup2(fd, target_fd);
     close(fd);
     return (0);
 }

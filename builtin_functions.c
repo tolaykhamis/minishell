@@ -25,52 +25,35 @@ static int  is_valid_id(char *str)
 return (1);
 }
 
-// static void print_export(char **envp)
-// {
-//     int i = 0;
-//     while (envp[i])
-//     {
-//         put_str_fd("declare -x ", 1);
-//         char *eq = ft_strchr(envp[i], '=');
-//         if (eq)
-//         {
-//             write(1, envp[i], eq - envp[i]);
-//             put_str_fd("=\"", 1);
-//             put_str_fd(eq + 1, 1);
-//             put_str_fd("\"\n", 1);
-//         }
-//         else
-//         {
-//             put_str_fd(envp[i], 1);
-//             put_str_fd("\n", 1);
-//         }
-//         i++;
-//     }
-// }
-
 static int  builtin_export(t_shell *shell, t_cmdlist *cmd)
 {
     int     i;
+    int     n;
 
+
+    n = 0;
     if (!cmd->av[1])
     {
-        print_export(shell->envp);
+        print_export(shell->export);
         return (0);
     }
     i = 1;
     while (cmd->av[i])
     {
-        if (!is_valid_id(cmd->av[i]))
+        while (!is_valid_id(cmd->av[i]))
         {
             put_str_fd("minishell: export: `", 2);
             put_str_fd(cmd->av[i], 2);
             put_str_fd("': not a valid identifier\n", 2);
-            return (1);
+            n = 1;
+            i++;
         }
-        shell->envp = add_to_envp(shell->envp, cmd->av[i]);
+        shell->export = add_to_envp(shell->export, cmd->av[i]);
+        if (yes_value(cmd->av[i]))
+            shell->envp = add_to_envp(shell->export, cmd->av[i]);
         i++;
     }
-    return (0);
+    return (n);
 }
 
 static int  builtin_unset(t_shell *shell, t_cmdlist *cmd)
@@ -83,6 +66,8 @@ static int  builtin_unset(t_shell *shell, t_cmdlist *cmd)
     while (cmd->av[i])
     {
         shell->envp = remove_from_envp(shell->envp, cmd->av[i]);
+        shell->export = remove_from_envp(shell->export, cmd->av[i]);
+
         i++;
     }
     return (0);

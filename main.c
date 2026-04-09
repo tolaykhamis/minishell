@@ -40,7 +40,7 @@ static void process_line(char *line, t_shell *shell)
         return ;
     if (!check_syntax(tokens))
     {
-        shell->exit_status = 258;
+        shell->exit_status = 2;
         free_tokens(tokens);
         return ;
     }
@@ -84,6 +84,7 @@ int main(int argc, char **argv, char **envp)
     (void)argc;
     (void)argv;
     shell.envp = copy_envp(envp);
+    shell.export = copy_envp(envp);
     shell.exit_status = 0;
     shell.cmds = NULL;
     setup_signals_interactive();

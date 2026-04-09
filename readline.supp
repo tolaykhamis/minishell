@@ -1,0 +1,25 @@
+{
+	<readline>
+	Memcheck:Leak
+	...
+	fun:readline
+}
+{
+	<add_history>
+	Memckeck:Leak
+	...
+	fun:add_history
+}
+{
+	<tgetstr>
+	Memcheck:Leak
+	...
+	fun:tgetstr_sp
+}
+{
+	<tgetent>
+	Memcheck:Leak
+	...
+	fun:tgetent_sp
+}
+

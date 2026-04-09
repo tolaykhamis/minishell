@@ -30,6 +30,7 @@ char *command_path(char *cmd, char **env,int i)
 
 static void go_child(char *path, t_cmdlist *cmd, t_shell *shell)
 {
+
     execve(path, cmd->av, shell->envp);
     perror(cmd->av[0]);
     exit(126);
@@ -50,7 +51,7 @@ static void family_time(pid_t pid, t_shell *shell,t_cmdlist *cmd,char *path)
         go_child(path, cmd, shell);
     else if(pid > 0)
         wait_ya_parent(pid, &status, shell);
-    else 
+    else
     {
         perror("fork");
         shell->exit_status = 1;
@@ -70,7 +71,7 @@ void execute_external(t_shell *shell,t_cmdlist *cmd)
         put_str_fd("minishell: ", 2);
         put_str_fd(cmd->av[0], 2);
         put_str_fd(": command not found\n", 2);
-        shell->exit_status = 127;        
+        shell->exit_status = 127;
         return ;
     }
     pid = fork();

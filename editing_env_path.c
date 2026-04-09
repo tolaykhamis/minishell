@@ -12,7 +12,7 @@ char **remove_from_envp(char **envp, char *name)
     i = 0;
     while (envp[i])
     {
-        if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
+        if (ft_strncmp(envp[i], name, len) == 0)
         {
             free(envp[i]);
             j = i;
@@ -34,10 +34,9 @@ static int update_existing(char **envp, char *new)
 
     while (new[len] && new[len] != '=')
         len++;
-
     while (envp[i])
     {
-        if (!ft_strncmp(envp[i], new, len) && envp[i][len] == '=')
+        if (!ft_strncmp(envp[i], new, len))
         {
             free(envp[i]);
             envp[i] = ft_strdup(new);
