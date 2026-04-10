@@ -68,7 +68,7 @@ int apply_heredoc(t_redi *rd, t_shell *shell)
     close(rd->heredoc_fd);
     return (0);
 }
-int preprocess_heredocs(t_cmdlist *cmds, t_shell *shell)
+int prepare_heredocs(t_cmdlist *cmds, t_shell *shell)
 {
     t_cmdlist *cmd;
     t_redi *rd;

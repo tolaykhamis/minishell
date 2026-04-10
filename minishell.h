@@ -151,7 +151,7 @@ void wait_all(t_shell *shell, pid_t *pids, int count);
 pid_t    *init_pids(int count);
 int  cmds_len(t_cmdlist *cmds);
 int yes_value(char *str);
-int preprocess_heredocs(t_cmdlist *cmds, t_shell *shell);
+int prepare_heredocs(t_cmdlist *cmds, t_shell *shell);
 
 
 #endif

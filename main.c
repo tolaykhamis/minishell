@@ -92,7 +92,11 @@ int main(int argc, char **argv, char **envp)
     shell_loop(shell);
     cleanup_shell(shell);
     free_free(shell->envp);
+    free_free(shell->export);
     free_cmds(shell->cmds);
+    shell->cmds = NULL;
+    shell->envp = NULL;
+    shell->export = NULL;
     rl_clear_history();
     return (shell.exit_status);
 }

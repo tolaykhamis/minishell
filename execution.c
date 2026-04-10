@@ -9,13 +9,13 @@ void execute_command(t_shell *shell)
         return ;
     if (cmd->next == NULL)
     {
-        if (preprocess_heredocs(shell->cmds, shell) < 0)
+        if (prepare_heredocs(shell->cmds, shell) < 0)
             return;
         single_execution(shell, cmd);
     }
     else
     {
-        if (preprocess_heredocs(shell->cmds, shell) < 0)
+        if (prepare_heredocs(shell->cmds, shell) < 0)
             return;
         pipeline_execution(shell,0);
     }
