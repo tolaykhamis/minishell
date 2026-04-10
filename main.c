@@ -47,8 +47,8 @@ static void process_line(char *line, t_shell *shell)
     argumentssloop(tokens, &cmds);
     expander(&cmds, shell);
     shell->cmds = cmds;
-    debug_commands(shell->cmds);
-    debug_tokens(tokens);
+    // debug_commands(shell->cmds);
+    // debug_tokens(tokens);
     execute_command(shell);
     free_cmds(cmds);
     shell->cmds = NULL;
@@ -77,19 +77,22 @@ static void shell_loop(t_shell *shell)
         free(line);
     }
 }
+
 int main(int argc, char **argv, char **envp)
 {
-    t_shell shell;
+    t_shell *shell;
 
     (void)argc;
     (void)argv;
-    shell.envp = copy_envp(envp);
-    shell.export = copy_envp(envp);
-    shell.exit_status = 0;
-    shell.cmds = NULL;
+    shell->envp = copy_envp(envp);
+    shell->export = copy_envp(envp);
+    shell->exit_status = 0;
+    shell->cmds = NULL;
     setup_signals_interactive();
-    shell_loop(&shell);
-    free_free(shell.envp);
+    shell_loop(shell);
+    cleanup_shell(shell);
+    free_free(shell->envp);
+    free_cmds(shell->cmds);
     rl_clear_history();
     return (shell.exit_status);
 }

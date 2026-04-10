@@ -6,6 +6,7 @@ static void child_process(t_shell *shell, t_cmdlist *cmd,
                             int prev_fd, int *pipe_fd)
 {
     char *path;
+    int status;
 
     if (prev_fd != STDIN_FILENO)
     {
@@ -27,7 +28,19 @@ static void child_process(t_shell *shell, t_cmdlist *cmd,
 		exit(0);
     init_isbuiltin(cmd);
     if (cmd->is_builtin)
+    {
+        if (ft_strcmp(cmd->av[0], "exit") == 0)
+        {
+            if (cmd->av[1])
+                status = ft_atoi(cmd->av[1]);
+            else
+                status = shell->exit_status;
+            exit(status);
+        } 
+        else
         exit(execute_builtin(shell, cmd));
+}
+
     if (ft_strchr(cmd->av[0], '/'))
         path = cmd->av[0];
     else

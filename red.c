@@ -1,6 +1,5 @@
 # include "minishell.h"
 
-
 static int redirect_fd(const char *file, int flags, mode_t mode, int target_fd)
 {
     int fd = open(file, flags, mode);
@@ -47,11 +46,32 @@ static int  handle_single_redir(t_redi *rd, t_shell *shell)
 int apply_redirections(t_cmdlist *cmd, t_shell *shell)
 {
     t_redi *rd = cmd->redirs;
-
     while (rd)
     {
-        if (handle_single_redir(rd, shell) < 0)
-            return (-1);
+        if (rd->type == TOKEN_HERDOC)
+        {
+            t_redi *tmp = rd->next;
+            int has_later = 0;
+            while (tmp) {
+                if (tmp->type == TOKEN_HERDOC) {
+                    has_later = 1;
+                    break;
+                }
+                tmp = tmp->next;
+            }
+            if (!has_later) 
+            {
+                if (apply_heredoc(rd, shell) < 0)
+                    return (-1);
+            } 
+            else 
+                close(rd->heredoc_fd);
+        }
+        else 
+        {
+            if (handle_single_redir(rd, shell) < 0)
+                return (-1);
+        }
         rd = rd->next;
     }
     return 0;

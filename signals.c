@@ -10,6 +10,7 @@ static void handle_sigint(int sig)
     rl_on_new_line();
     rl_replace_line("", 0);
     rl_redisplay();
+    // shell->exit_status = 130;
 }
 
 void setup_signals_interactive(void)

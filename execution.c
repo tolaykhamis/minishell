@@ -8,9 +8,17 @@ void execute_command(t_shell *shell)
     if (cmd == NULL)
         return ;
     if (cmd->next == NULL)
+    {
+        if (preprocess_heredocs(shell->cmds, shell) < 0)
+            return;
         single_execution(shell, cmd);
+    }
     else
+    {
+        if (preprocess_heredocs(shell->cmds, shell) < 0)
+            return;
         pipeline_execution(shell,0);
+    }
 }
 
 static int  prepare_execution(t_shell *shell, t_cmdlist *cmd,
