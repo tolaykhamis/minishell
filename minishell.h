@@ -48,6 +48,8 @@ typedef struct s_cmdlist
 	t_redi				*redirs;
 	struct s_cmdlist	*next;
 	int					is_builtin;
+	int					saved_stdin;
+    int 				saved_stdout;
 } t_cmdlist;
 
 typedef struct s_shell
@@ -55,6 +57,7 @@ typedef struct s_shell
 	char		**envp;
 	char		**export;
 	int			exit_status;
+	pid_t		*pids;
 	t_cmdlist	*cmds;
 } t_shell;
 
@@ -62,7 +65,8 @@ extern int g_signal;
 void add_redi_node(t_cmdlist *cmd, t_token *token);
 char    *ft_strchr(const char *s, int c);
 char    *strip_quotes(char *str);
-void		extract_token_list(char *line, t_token **token_list);
+// void		extract_token_list(char *line, t_token **token_list);
+void	extract_token_list(char *line, t_token **token_list, t_shell *shell);
 int			check_syntax(t_token *tokens);
 int			outputerror(const char *token);
 void		argumentssloop(t_token *tokens, t_cmdlist **cmds);
@@ -88,13 +92,13 @@ void		debug_pipeline(t_cmdlist *cmds);
 void		debug_tokens(t_token *tokens);
 char	*substr_dup(char *start, int len);
 int	word_length(char *ptr);
-void	handle_word(char **ptr, t_token **list);
+// void	handle_word(char **ptr, t_token **list);
+void	handle_word(char **ptr, t_token **list, t_shell *shell);
 void	handle_input(char **ptr, t_token **list);
 void	handle_output(char **ptr, t_token **list);
 void	pipes(char **ptr, t_token **list);
 void	handle_operator(char **ptr, t_token **list);
 void addnode_redi(t_cmdlist *cmd, t_token *token);
-void	handle_word(char **ptr, t_token **list);
 int	count_args(t_token *tokens);
 void free_redirs(t_redi *redi);
 void free_cmds(t_cmdlist *cmds);
@@ -103,7 +107,8 @@ int	is_operator(char c);
 int	ft_space(char c);
 t_token	*new_token(char *value, enum token type);
 void	add_token(t_token **list, t_token *new);
-char *quote(char **ptr);
+// char *quote(char **ptr);
+char	*quote(char **ptr, t_shell *shell);
 int	valoftoken(t_token *t);
 int	redi(enum token type);
 int	oper(enum token type);
@@ -140,7 +145,8 @@ void	free_i(char **res, int i);
 char	*word_dup(const char *s, size_t len);
 int	count_words(const char *s, char c);
 char	*quote_removal_part_100(char *str);
-char *command_path(char *cmd, char **env,int i);
+// char *command_path(char *cmd, char **env,int i);
+char *command_path(char *cmd, char **env,int i, t_shell *shell);
 const char *token_name(enum token type);
 int	fill(char **res, const char *s, char c);
 int apply_heredoc(t_redi *rd, t_shell *shell);
@@ -152,6 +158,7 @@ pid_t    *init_pids(int count);
 int  cmds_len(t_cmdlist *cmds);
 int yes_value(char *str);
 int prepare_heredocs(t_cmdlist *cmds, t_shell *shell);
+void clean_before_exit(t_shell *shell);
 
 
 #endif

@@ -5,7 +5,6 @@ static void read_heredoc_input(t_redi *rd, t_shell *shell, int write_fd)
     char    *line;
     char    *expanded;
 
-
     while (1)
     {
         line = readline("> ");
@@ -41,6 +40,7 @@ static int  handle_heredoc(t_redi *rd, t_shell *shell)
         setup_signals_heredoc();
         close(pipe_fd[0]);
         read_heredoc_input(rd, shell, pipe_fd[1]);
+        clean_before_exit(shell);
         close(pipe_fd[1]);
         exit(0);
     }
@@ -48,7 +48,7 @@ static int  handle_heredoc(t_redi *rd, t_shell *shell)
     waitpid(pid, &status, 0);
     if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
     {
-        shell->exit_status = 130; 
+        shell->exit_status = 130;
         close(pipe_fd[0]);
         return (-1);
     }
@@ -65,6 +65,7 @@ int apply_heredoc(t_redi *rd, t_shell *shell)
     //     if (handle_heredoc(rd, shell) < 0)
     //         return -1;
     // }
+    // clean_before_exit(shell);
     close(rd->heredoc_fd);
     return (0);
 }

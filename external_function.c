@@ -1,12 +1,13 @@
 #include "minishell.h"
 
-char *command_path(char *cmd, char **env,int i)
+char *command_path(char *cmd, char **env,int i, t_shell *shell)
 {
     char    *path_env;
     char    **all_paths;
     char    *tmp;
     char    *full_path;
 
+	(void) shell;
     path_env = get_env_name(env, "PATH");
     if (!path_env)
         return NULL;
@@ -19,6 +20,7 @@ char *command_path(char *cmd, char **env,int i)
         if (!access(full_path, X_OK))
         {
             free_free(all_paths);
+			// free(shell->pids);
             return (full_path);
         }
         free(full_path);
@@ -28,11 +30,14 @@ char *command_path(char *cmd, char **env,int i)
     return NULL;
 }
 
-static void go_child(char *path, t_cmdlist *cmd, t_shell *shell)
+static void go_child(char *path, t_cmdlist *cmd, t_shell *shell )
 {
-
+    close(cmd->saved_stdin);
+    close(cmd->saved_stdout);
     execve(path, cmd->av, shell->envp);
     perror(cmd->av[0]);
+	free(path);
+	clean_before_exit(shell);
     exit(126);
 }
 
@@ -65,7 +70,7 @@ void execute_external(t_shell *shell,t_cmdlist *cmd)
     if (ft_strchr(cmd->av[0], '/'))
         path = cmd->av[0];
     else
-        path = command_path(cmd->av[0], shell->envp,0);
+        path = command_path(cmd->av[0], shell->envp,0, shell);
     if (!path)
     {
         put_str_fd("minishell: ", 2);

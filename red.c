@@ -46,28 +46,30 @@ static int  handle_single_redir(t_redi *rd, t_shell *shell)
 int apply_redirections(t_cmdlist *cmd, t_shell *shell)
 {
     t_redi *rd = cmd->redirs;
+    int last;
     while (rd)
     {
         if (rd->type == TOKEN_HERDOC)
         {
             t_redi *tmp = rd->next;
-            int has_later = 0;
-            while (tmp) {
+            last = 0;
+            while (tmp)
+            {
                 if (tmp->type == TOKEN_HERDOC) {
-                    has_later = 1;
+                    last = 1;
                     break;
                 }
                 tmp = tmp->next;
             }
-            if (!has_later) 
+            if (!last)
             {
                 if (apply_heredoc(rd, shell) < 0)
                     return (-1);
-            } 
-            else 
+            }
+            else
                 close(rd->heredoc_fd);
         }
-        else 
+        else
         {
             if (handle_single_redir(rd, shell) < 0)
                 return (-1);

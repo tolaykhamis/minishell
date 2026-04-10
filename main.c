@@ -35,7 +35,7 @@ static void process_line(char *line, t_shell *shell)
 
     tokens = NULL;
     cmds = NULL;
-    extract_token_list(line, &tokens);
+    extract_token_list(line, &tokens, shell);
     if (!tokens)
         return ;
     if (!check_syntax(tokens))
@@ -49,12 +49,31 @@ static void process_line(char *line, t_shell *shell)
     shell->cmds = cmds;
     // debug_commands(shell->cmds);
     // debug_tokens(tokens);
+    free_tokens(tokens);
     execute_command(shell);
     free_cmds(cmds);
     shell->cmds = NULL;
-    free_tokens(tokens);
 }
+void close_fds(int fd)
+{
+    while (fd < 1024)
+    {
+        close(fd);
+        fd++;
+    }
+}
+void clean_before_exit(t_shell *shell)
+{
+    close_fds(3);
+    free_free(shell->envp);
+    free_free(shell->export);
+    free_cmds(shell->cmds);
+    shell->cmds = NULL;
+    shell->envp = NULL;
+    shell->export = NULL;
+    rl_clear_history();
 
+}
 static void shell_loop(t_shell *shell)
 {
     char *line;
@@ -63,7 +82,7 @@ static void shell_loop(t_shell *shell)
     {
         line = readline("minishell> ");
         if (!line)
-            break ;
+			break ;
         if (g_signal == SIGINT)
         {
             shell->exit_status = 130;
@@ -80,23 +99,16 @@ static void shell_loop(t_shell *shell)
 
 int main(int argc, char **argv, char **envp)
 {
-    t_shell *shell;
+    t_shell shell;
 
     (void)argc;
     (void)argv;
-    shell->envp = copy_envp(envp);
-    shell->export = copy_envp(envp);
-    shell->exit_status = 0;
-    shell->cmds = NULL;
+    shell.envp = copy_envp(envp);
+    shell.export = copy_envp(envp);
+    shell.exit_status = 0;
+    shell.cmds = NULL;
     setup_signals_interactive();
-    shell_loop(shell);
-    cleanup_shell(shell);
-    free_free(shell->envp);
-    free_free(shell->export);
-    free_cmds(shell->cmds);
-    shell->cmds = NULL;
-    shell->envp = NULL;
-    shell->export = NULL;
-    rl_clear_history();
+    shell_loop(&shell);
+    clean_before_exit(&shell);
     return (shell.exit_status);
 }

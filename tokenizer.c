@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkhamis <tkhamis@student.42amman.com>      +#+  +:+       +#+        */
+/*   By: jomeltah <jomeltah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 22:52:55 by tkhamis           #+#    #+#             */
-/*   Updated: 2026/03/07 22:52:55 by tkhamis          ###   ########.fr       */
+/*   Updated: 2026/04/10 13:19:03 by jomeltah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,17 @@ char	*substr_dup(char *start, int len)
 	return (str);
 }
 
-void	handle_word(char **ptr, t_token **list)
+void	handle_word(char **ptr, t_token **list, t_shell *shell)
 {
 	char	*word;
 
-	word = quote(ptr);
+	word = quote(ptr, shell);
 	if (!word)
 		return ;
 	add_token(list, new_token(word, TOKEN_WORD));
 }
 
-void	extract_token_list(char *line, t_token **token_list)
+void	extract_token_list(char *line, t_token **token_list, t_shell *shell)
 {
 	char	*ptr;
 
@@ -83,6 +83,6 @@ void	extract_token_list(char *line, t_token **token_list)
 		if (is_operator(*ptr))
 			handle_operator(&ptr, token_list);
 		else
-			handle_word(&ptr, token_list);
+			handle_word(&ptr, token_list, shell);
 	}
 }

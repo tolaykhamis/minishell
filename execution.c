@@ -55,19 +55,16 @@ static void execute_cmd(t_shell *shell, t_cmdlist *cmd)
 }
 void single_execution(t_shell *shell, t_cmdlist *cmd)
 {
-    int saved_stdin;
-    int saved_stdout;
-
-    saved_stdin = dup(STDIN_FILENO);
-    saved_stdout = dup(STDOUT_FILENO);
+    cmd->saved_stdin = dup(STDIN_FILENO);
+    cmd->saved_stdout = dup(STDOUT_FILENO);
     init_isbuiltin(cmd);
-    if (!prepare_execution(shell, cmd, saved_stdin, saved_stdout))
+    if (!prepare_execution(shell, cmd, cmd->saved_stdin, cmd->saved_stdout))
         return ;
     execute_cmd(shell, cmd);
-    dup2(saved_stdin, STDIN_FILENO);
-    dup2(saved_stdout, STDOUT_FILENO);
-    close(saved_stdin);
-    close(saved_stdout);
+    dup2(cmd->saved_stdin, STDIN_FILENO);
+    dup2(cmd->saved_stdout, STDOUT_FILENO);
+    close(cmd->saved_stdin);
+    close(cmd->saved_stdout);
 }
 
 

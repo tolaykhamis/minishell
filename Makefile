@@ -2,7 +2,7 @@ NAME		= minishell
 
 CC		= cc
 LDFLAGS = -lreadline -L/usr/local/opt/readline/lib
-CFLAGS  = -Wall -Wextra -Werror -I/usr/local/opt/readline/include
+CFLAGS  = -Wall -Wextra -Werror -I/usr/local/opt/readline/include -g
 
 SRCS		= main.c \
 		  tokenizer.c \

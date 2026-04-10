@@ -1,7 +1,6 @@
 #include "minishell.h"
 
 
-
 static void child_process(t_shell *shell, t_cmdlist *cmd,
                             int prev_fd, int *pipe_fd)
 {
@@ -36,7 +35,7 @@ static void child_process(t_shell *shell, t_cmdlist *cmd,
             else
                 status = shell->exit_status;
             exit(status);
-        } 
+        }
         else
         exit(execute_builtin(shell, cmd));
 }
@@ -44,12 +43,14 @@ static void child_process(t_shell *shell, t_cmdlist *cmd,
     if (ft_strchr(cmd->av[0], '/'))
         path = cmd->av[0];
     else
-        path = command_path(cmd->av[0], shell->envp,0);
+        path = command_path(cmd->av[0], shell->envp,0, shell);
     if (!path)
     {
         put_str_fd("minishell: ", 2);
         put_str_fd(cmd->av[0], 2);
         put_str_fd(": command not found\n", 2);
+        free(shell->pids);
+        clean_before_exit(shell);
         exit(127);
     }
     execve(path, cmd->av, shell->envp);
@@ -82,12 +83,12 @@ void pipeline_execution(t_shell *shell,int i)
     t_cmdlist *cmd;
     int pipe_fd[2];
     int prev_fd;
-    pid_t *pids;
+    // pid_t *pids;
     int count;
 
     count = cmds_len(shell->cmds);
-    pids = init_pids(count);
-    if (!pids)
+    shell->pids = init_pids(count);
+    if (!shell->pids)
         return;
     prev_fd = STDIN_FILENO;
     cmd = shell->cmds;
@@ -95,12 +96,15 @@ void pipeline_execution(t_shell *shell,int i)
     {
         if (cmd->next)
             pipe(pipe_fd);
-        execute_pipeline_cmd(shell, cmd, prev_fd, cmd->next ? pipe_fd : NULL, &pids[i]);
+        execute_pipeline_cmd(shell, cmd, prev_fd, cmd->next ? pipe_fd : NULL, &shell->pids[i]);
+        wait_all(shell, shell->pids, count);
         if (cmd->next)
             prev_fd = pipe_fd[0];
         cmd = cmd->next;
         i++;
     }
-    wait_all(shell, pids, count);
-    free(pids);
+	// printf("Hereeeeeeee");
+    // clean_before_exit(shell);
+    // wait_all(shell, shell->pids, count);
+    free(shell->pids);
 }

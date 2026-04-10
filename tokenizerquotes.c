@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizerquotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkhamis <tkhamis@student.42amman.com>      +#+  +:+       +#+        */
+/*   By: jomeltah <jomeltah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:49 by tkhamis           #+#    #+#             */
-/*   Updated: 2026/03/19 16:12:49 by tkhamis          ###   ########.fr       */
+/*   Updated: 2026/04/10 13:06:05 by jomeltah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*quotes2(char **ptr, char *word)
 	return (word);
 }
 
-char	*quote(char **ptr)
+char	*quote(char **ptr, t_shell *shell)
 {
 	char	*word;
 	int		len;
@@ -77,6 +77,7 @@ char	*quote(char **ptr)
 	if (len < 0)
 	{
 		printf("minishell: syntax error unclosed quotes\n");
+		shell->exit_status = 2;
 		while (**ptr)
 			(*ptr)++;
 		return (NULL);

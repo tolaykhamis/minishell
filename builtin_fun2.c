@@ -64,13 +64,16 @@ int builtin_exit(t_shell *shell, t_cmdlist *cmd)
 
 	put_str_fd("exit\n", 2);
 	if (!cmd->av[1])
-		exit(shell->exit_status % 256);
-
+    {
+        clean_before_exit(shell);
+        exit(shell->exit_status % 256);
+    }
     if (!is_numeric(cmd->av[1]))
 	{
 		put_str_fd("minishell: exit: ", 2);
 		put_str_fd(cmd->av[1], 2);
 		put_str_fd(": numeric argument required\n", 2);
+        clean_before_exit(shell);
 		exit(2);
 	}
     if (cmd->av[2])
@@ -80,6 +83,7 @@ int builtin_exit(t_shell *shell, t_cmdlist *cmd)
 		return (1);
 	}
 	code = (unsigned char)ft_atoi(cmd->av[1]);
+    clean_before_exit(shell);
 	exit(code);
 }
 int  builtin_env(t_shell *shell)

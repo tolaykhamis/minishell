@@ -24,12 +24,10 @@ static int  is_valid_id(char *str)
     }
 return (1);
 }
-
 static int  builtin_export(t_shell *shell, t_cmdlist *cmd)
 {
     int     i;
     int     n;
-
 
     n = 0;
     if (!cmd->av[1])
@@ -77,19 +75,22 @@ static int  builtin_unset(t_shell *shell, t_cmdlist *cmd)
 
 int execute_builtin(t_shell *shell, t_cmdlist *cmd)
 {
+    int a = -1;
     if (ft_strcmp(cmd->av[0], "cd") == 0)
-        return (builtin_cd(shell, cmd));
+        a = builtin_cd(shell, cmd);
     if (ft_strcmp(cmd->av[0], "pwd") == 0)
-        return (builtin_pwd());
+        a = builtin_pwd();
     if (ft_strcmp(cmd->av[0], "echo") == 0)
-        return (builtin_echo(cmd));
+        a = builtin_echo(cmd);
     if (ft_strcmp(cmd->av[0], "exit") == 0)
-        return (builtin_exit(shell, cmd));
+        a = builtin_exit(shell, cmd);
     if (ft_strcmp(cmd->av[0], "export") == 0)
-        return (builtin_export(shell, cmd));
+        a = builtin_export(shell, cmd);
     if (ft_strcmp(cmd->av[0], "unset") == 0)
-        return (builtin_unset(shell, cmd));
+        a = builtin_unset(shell, cmd);
     if (ft_strcmp(cmd->av[0], "env") == 0)
-        return (builtin_env(shell));
-    return (-1);
+        a = builtin_env(shell);
+    clean_before_exit(shell);
+    free(shell->pids);
+    return (a);
 }
