@@ -60,6 +60,7 @@ void	free_i(char **res, int i)
 	}
 	free(res);
 }
+
 void	free_split(char **tokens)
 {
 	int	i;

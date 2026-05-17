@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomeltah <jomeltah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkhamis <tkhamis@student.42amman.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 22:52:55 by tkhamis           #+#    #+#             */
-/*   Updated: 2026/04/10 13:19:03 by jomeltah         ###   ########.fr       */
+/*   Updated: 2026/04/25 16:09:39 by tkhamis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*new_token(char *value, enum token type)
+t_token	*new_token(char *value, enum e_token type)
 {
 	t_token	*token;
 

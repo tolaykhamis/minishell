@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*convert(enum token type)
+char	*convert(enum e_token type)
 {
 	if (type == TOKENPIPE)
 		return ("|");
@@ -31,13 +31,13 @@ char	*convert(enum token type)
 	return ("unknown");
 }
 
-int	redi(enum token type)
+int	redi(enum e_token type)
 {
 	return (type == TOKEN_REDIRECT_IN || type == TOKEN_REDIRECT_OUT
 		|| type == TOKEN_APPEND || type == TOKEN_HERDOC);
 }
 
-int	oper(enum token type)
+int	oper(enum e_token type)
 {
 	return (type == TOKENPIPE || type == TOKEN_OR || type == TOKEN_AND);
 }

@@ -6,13 +6,13 @@
 /*   By: tkhamis <tkhamis@student.42amman.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:21:50 by tkhamis           #+#    #+#             */
-/*   Updated: 2026/03/19 16:21:50 by tkhamis          ###   ########.fr       */
+/*   Updated: 2026/04/25 16:10:49 by tkhamis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_redir(enum token type)
+int	is_redir(enum e_token type)
 {
 	return (type == TOKEN_REDIRECT_IN || type == TOKEN_REDIRECT_OUT
 		|| type == TOKEN_APPEND || type == TOKEN_HERDOC);

@@ -33,10 +33,8 @@ static int	is_valid_id(char *str)
 	return (1);
 }
 
-static int	builtin_export(t_shell *shell, t_cmdlist *cmd, int n)
+static int	builtin_export(t_shell *shell, t_cmdlist *cmd, int n, int i)
 {
-	int	i;
-
 	n = 0;
 	if (!cmd->av[1])
 	{
@@ -46,17 +44,18 @@ static int	builtin_export(t_shell *shell, t_cmdlist *cmd, int n)
 	i = 1;
 	while (cmd->av[i])
 	{
-		while (!is_valid_id(cmd->av[i]))
+		if (!is_valid_id(cmd->av[i]))
 		{
 			put_str_fd("minishell: export: `", 2);
 			put_str_fd(cmd->av[i], 2);
 			put_str_fd("': not a valid identifier\n", 2);
 			n = 1;
 			i++;
+			continue ;
 		}
 		shell->export = add_to_envp(shell->export, cmd->av[i]);
 		if (yes_value(cmd->av[i]))
-			shell->envp = add_to_envp(shell->envp, cmd->av[i]);// hello
+			shell->envp = add_to_envp(shell->envp, cmd->av[i]);
 		i++;
 	}
 	return (n);
@@ -89,7 +88,7 @@ int	execute_builtin(t_shell *shell, t_cmdlist *cmd)
 	if (ft_strcmp(cmd->av[0], "exit") == 0)
 		return (builtin_exit(shell, cmd));
 	if (ft_strcmp(cmd->av[0], "export") == 0)
-		return (builtin_export(shell, cmd, 0));
+		return (builtin_export(shell, cmd, 0, 1));
 	if (ft_strcmp(cmd->av[0], "unset") == 0)
 		return (builtin_unset(shell, cmd));
 	if (ft_strcmp(cmd->av[0], "env") == 0)

@@ -48,7 +48,7 @@ static void	go_child(char *path, t_cmdlist *cmd, t_shell *shell)
 	close(cmd->saved_stdin);
 	execve(path, cmd->av, shell->envp);
 	perror(cmd->av[0]);
-	if (path != cmd->av[0]) // ADD THIS CONDITION INSTEAD OF FREE(PATH) ALAWAYS
+	if (path != cmd->av[0])
 		free(path);
 	clean_before_exit(shell);
 	exit(126);

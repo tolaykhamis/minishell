@@ -19,15 +19,31 @@ static void	execute_pipeline_cmd(t_shell *shell, t_cmdlist *cmd, int *pipe_fd,
 	if (*pid == 0)
 	{
 		setup_signals_child();
-		child_process(shell,cmd, shell->prev_fd, pipe_fd);
+		child_process(shell, cmd, shell->prev_fd, pipe_fd);
 		exit(shell->exit_status);
 	}
-
 	if (shell->prev_fd != STDIN_FILENO)
 		close(shell->prev_fd);
-
 	if (pipe_fd)
 		close(pipe_fd[1]);
+}
+
+static void	process_pipeline_cmd(t_shell *shell, t_cmdlist *cmd, int *pipe_fd,
+		pid_t *pid)
+{
+	if (cmd->next)
+		pipe(pipe_fd);
+	if (cmd->next)
+		execute_pipeline_cmd(shell, cmd, pipe_fd, pid);
+	else
+		execute_pipeline_cmd(shell, cmd, NULL, pid);
+	setup_signals_child();
+	if (g_signal == SIGINT)
+		shell->exit_status = 130;
+	if (g_signal == SIGQUIT)
+		shell->exit_status = 131;
+	if (cmd->next)
+		shell->prev_fd = pipe_fd[0];
 }
 
 static void	pipeline_loop(t_shell *shell, int count)
@@ -41,25 +57,12 @@ static void	pipeline_loop(t_shell *shell, int count)
 	i = 0;
 	while (cmd)
 	{
-		if (cmd->next)
-			pipe(pipe_fd);
-		if (cmd->next)
-			execute_pipeline_cmd(shell,cmd, pipe_fd, &shell->pids[i]);
-		else
-			execute_pipeline_cmd(shell,cmd, NULL, &shell->pids[i]);
-		// close_unused_heredocs(cmd); // add this 	// 25
-		setup_signals_child();
-        if (g_signal == SIGINT)
-		    shell->exit_status = 130;
-	    if (g_signal == SIGQUIT)
-		    shell->exit_status = 131;
-		if (cmd->next)
-			shell->prev_fd = pipe_fd[0];
+		process_pipeline_cmd(shell, cmd, pipe_fd, &shell->pids[i]);
 		cmd = cmd->next;
 		i++;
 	}
-	wait_all(shell, shell->pids, count); // remove last param pid_fd
-	close_all_heredocs(shell->cmds); 
+	wait_all(shell, shell->pids, count);
+	close_all_heredocs(shell->cmds);
 	setup_signals_interactive();
 }
 
@@ -71,7 +74,6 @@ void	pipeline_execution(t_shell *shell)
 	shell->pids = init_pids(count);
 	if (!shell->pids)
 		return ;
-
-	pipeline_loop(shell,count);
-	clear_pids(shell); //delete this // return it
+	pipeline_loop(shell, count);
+	clear_pids(shell);
 }

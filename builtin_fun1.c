@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_fun1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomeltah <jomeltah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkhamis <tkhamis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 16:02:48 by jomeltah          #+#    #+#             */
-/*   Updated: 2026/04/11 16:11:39 by jomeltah         ###   ########.fr       */
+/*   Updated: 2026/04/27 17:51:28 by tkhamis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,28 @@ void	update_pwd(t_shell *shell)
 	}
 }
 
+static int	count_argss(t_cmdlist *cmd)
+{
+	int		i;
+
+	i = 0;
+	while (cmd && cmd->av[i])
+		i++;
+	if (i != 2)
+	{
+		put_str_fd("cd: too many arguments\n", 2);
+	}
+	return (i - 1);
+}
+
 int	builtin_cd(t_shell *shell, t_cmdlist *cmd)
 {
 	char	*path;
+	int		args_num;
 
+	args_num = count_argss(cmd);
+	if (args_num != 1)
+		return (1);
 	if (!cmd->av[1])
 		path = get_env_name(shell->envp, "HOME");
 	else

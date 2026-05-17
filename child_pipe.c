@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   child_pipe.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tkhamis <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/26 16:24:37 by tkhamis           #+#    #+#             */
+/*   Updated: 2026/04/26 16:24:40 by tkhamis          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	setup_fds(t_cmdlist *cmd, int prev_fd, int *pipe_fd)
@@ -21,8 +33,7 @@ static void	handle_redirections(t_shell *shell, t_cmdlist *cmd)
 	{
 		if (apply_redirections(cmd, shell) < 0)
 		{
-			clean_before_exit(shell); //replace this with bellow function
-			// clean_child_exit(shell);
+			clean_before_exit(shell);
 			exit(1);
 		}
 	}
@@ -44,10 +55,7 @@ static void	handle_builtin(t_shell *shell, t_cmdlist *cmd)
 	}
 	else
 		status = execute_builtin(shell, cmd);
-	// if (ft_strcmp(cmd->av[0], "export")) basel
-	// clean_before_exit(shell); basel
-	 //delete this
-	clean_before_exit(shell); // basel
+	clean_before_exit(shell);
 	exit(status);
 }
 
@@ -65,7 +73,6 @@ static void	resolve_and_exec(t_shell *shell, t_cmdlist *cmd)
 		put_str_fd(cmd->av[0], 2);
 		put_str_fd(": command not found\n", 2);
 		clean_before_exit(shell);
-		//clean_child_exit(shell);
 		exit(127);
 	}
 	execve(path, cmd->av, shell->envp);
@@ -73,25 +80,20 @@ static void	resolve_and_exec(t_shell *shell, t_cmdlist *cmd)
 		free(path);
 	perror(cmd->av[0]);
 	clean_before_exit(shell);
-	//clean_child_exit(shell);
 	exit(126);
 }
 
-void	child_process(t_shell *shell, t_cmdlist *cmd,
-		int prev_fd, int *pipe_fd)
+void	child_process(t_shell *shell, t_cmdlist *cmd, int prev_fd, int *pipe_fd)
 {
 	if (!cmd->av || !cmd->av[0])
 	{
 		clean_before_exit(shell);
-		// clean_child_exit(shell);
 		exit(0);
-		// return;
 	}
 	setup_fds(cmd, prev_fd, pipe_fd);
 	handle_redirections(shell, cmd);
-	// close_unused_heredocs(cmd); // add this
 	close_all_heredocs(shell->cmds);
 	handle_builtin(shell, cmd);
 	resolve_and_exec(shell, cmd);
-	free(shell->pids); //remove
+	free(shell->pids);
 }

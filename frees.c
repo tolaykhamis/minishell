@@ -63,7 +63,6 @@ void	free_free(char **arr)
 		i++;
 	}
 	free(arr);
-	// arr = NULL;
 }
 
 void	free_redirs(t_redi *redi)

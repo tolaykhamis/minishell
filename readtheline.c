@@ -6,7 +6,7 @@
 /*   By: tkhamis <tkhamis@student.42amman.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 22:52:48 by tkhamis           #+#    #+#             */
-/*   Updated: 2026/03/07 22:52:48 by tkhamis          ###   ########.fr       */
+/*   Updated: 2026/04/26 16:21:00 by tkhamis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	return (res);
 }
+
 void	split_line(char *line)
 {
 	char	**tokens;
@@ -73,7 +74,8 @@ void	split_line(char *line)
 	}
 	free(tokens);
 }
-const char	*token_name(enum token type)
+
+const char	*token_name(enum e_token type)
 {
 	if (type == TOKEN_WORD)
 		return ("WORD");

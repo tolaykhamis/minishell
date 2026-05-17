@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   intro.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomeltah <jomeltah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkhamis <tkhamis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 16:19:28 by jomeltah          #+#    #+#             */
-/*   Updated: 2026/04/11 16:37:58 by jomeltah         ###   ########.fr       */
+/*   Updated: 2026/04/27 17:50:29 by tkhamis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
 
 void	print_welcome(void)
 {
@@ -33,6 +32,6 @@ void	print_welcome(void)
 	printf("  ║🌱              Touch Grass  🌱🌿🌲🌳☘️                🌱║\n");
 	printf("  ║🌱     Developed by: Joud Meltaha 💚 Tolay Khamis     🌱║\n");
 	printf("  ║🌱       Type 'exit' to quit the shell                🌱║\n");
-	printf("  ║🌱       Type 'help' for available commands           🌱║\n");
+	printf("  ║🌱       Type 'man man' for available commands        🌱║\n");
 	printf("  ╚════════════════════════════════════════════════════════╝\n\n");
 }

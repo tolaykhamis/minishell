@@ -25,7 +25,7 @@
 
 extern int				g_signal;
 
-enum					token
+enum					e_token
 {
 	TOKEN_WORD,
 	TOKENPIPE,
@@ -43,13 +43,13 @@ enum					token
 typedef struct s_token
 {
 	char				*value;
-	enum token			type;
+	enum e_token		type;
 	struct s_token		*next;
 }						t_token;
 
 typedef struct s_redi
 {
-	enum token			type;
+	enum e_token		type;
 	char				*f;
 	int					has_quotes;
 	struct s_redi		*next;
@@ -76,11 +76,9 @@ typedef struct s_shell
 	t_cmdlist			*cmds;
 }						t_shell;
 
-extern int				g_signal;
 void					add_redi_node(t_cmdlist *cmd, t_token *token);
 char					*ft_strchr(const char *s, int c);
 char					*strip_quotes(char *str);
-// void		extract_token_list(char *line, t_token **token_list);
 void					extract_token_list(char *line, t_token **token_list,
 							t_shell *shell);
 int						check_syntax(t_token *tokens);
@@ -108,7 +106,6 @@ void					debug_pipeline(t_cmdlist *cmds);
 void					debug_tokens(t_token *tokens);
 char					*substr_dup(char *start, int len);
 int						word_length(char *ptr);
-// void	handle_word(char **ptr, t_token **list);
 void					handle_word(char **ptr, t_token **list, t_shell *shell);
 void					handle_input(char **ptr, t_token **list);
 void					handle_output(char **ptr, t_token **list);
@@ -118,17 +115,16 @@ void					addnode_redi(t_cmdlist *cmd, t_token *token);
 int						count_args(t_token *tokens);
 void					free_redirs(t_redi *redi);
 void					freeargs(t_cmdlist *cmds);
-int						is_redir(enum token type);
+int						is_redir(enum e_token type);
 int						is_operator(char c);
 int						ft_space(char c);
-t_token					*new_token(char *value, enum token type);
+t_token					*new_token(char *value, enum e_token type);
 void					add_token(t_token **list, t_token *new);
-// char *quote(char **ptr);
 char					*quote(char **ptr, t_shell *shell);
 int						valoftoken(t_token *t);
-int						redi(enum token type);
-int						oper(enum token type);
-char					*convert(enum token type);
+int						redi(enum e_token type);
+int						oper(enum e_token type);
+char					*convert(enum e_token type);
 int						execute_builtin(t_shell *shell, t_cmdlist *cmd);
 void					execute_command(t_shell *shell);
 void					single_execution(t_shell *shell, t_cmdlist *cmd);
@@ -161,16 +157,15 @@ void					free_i(char **res, int i);
 char					*word_dup(const char *s, size_t len);
 int						count_words(const char *s, char c);
 char					*quote_removal_part_100(char *str);
-// char *command_path(char *cmd, char **env,int i);
 char					*command_path(char *cmd, char **env, int i,
 							t_shell *shell);
-const char				*token_name(enum token type);
+const char				*token_name(enum e_token type);
 int						fill(char **res, const char *s, char c);
 int						apply_heredoc(t_redi *rd, t_shell *shell);
 void					ft_swap(char **a, char **b);
 void					print_export(char **envp);
 char					**copy_envp(char **envp);
-void					wait_all(t_shell *shell, pid_t *pids, int count); // add int pip_fd // then remove it
+void					wait_all(t_shell *shell, pid_t *pids, int count);
 pid_t					*init_pids(int count);
 int						cmds_len(t_cmdlist *cmds);
 int						yes_value(char *str);
@@ -178,10 +173,15 @@ int						prepare_heredocs(t_cmdlist *cmds, t_shell *shell);
 void					clean_before_exit(t_shell *shell);
 void					print_welcome(void);
 void					close_fds(int fd);
-void	child_process(t_shell *shell, t_cmdlist *cmd, int prev_fd, int *pipe_fd);
-void clear_pids(t_shell *shell);
-void close_unused_heredocs(t_cmdlist *cmd);
-void	clean_child_exit(t_shell *shell);
-void close_all_heredocs(t_cmdlist *all_cmds);
+void					child_process(t_shell *shell, t_cmdlist *cmd,
+							int prev_fd, int *pipe_fd);
+void					clear_pids(t_shell *shell);
+void					close_unused_heredocs(t_cmdlist *cmd);
+void					clean_child_exit(t_shell *shell);
+void					close_all_heredocs(t_cmdlist *all_cmds);
+int						handle_heredoc(t_redi *rd, t_shell *shell);
+void					close_opened_heredocs(t_cmdlist *cmds, t_redi *stop);
+void					read_heredoc_input(t_redi *rd, t_shell *shell,
+							int write_fd);
 
 #endif

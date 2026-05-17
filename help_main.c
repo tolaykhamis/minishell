@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   help_main.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tkhamis <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/26 16:23:51 by tkhamis           #+#    #+#             */
+/*   Updated: 2026/04/26 16:23:54 by tkhamis          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	clean_before_exit(t_shell *shell)
@@ -14,7 +26,7 @@ void	clean_before_exit(t_shell *shell)
 	clear_pids(shell);
 }
 
-void clear_pids(t_shell *shell)
+void	clear_pids(t_shell *shell)
 {
 	if (shell->pids)
 	{
@@ -22,15 +34,7 @@ void clear_pids(t_shell *shell)
 		shell->pids = NULL;
 	}
 }
-void	clean_child_exit(t_shell *shell)
-{
-    close_fds(3);
-    freeargs(shell->cmds);
-    rl_clear_history();
-    shell->cmds = NULL;
-    clear_pids(shell);
 
-}
 void	close_fds(int fd)
 {
 	while (fd < 1024)
@@ -38,4 +42,13 @@ void	close_fds(int fd)
 		close(fd);
 		fd++;
 	}
+}
+
+void	clean_child_exit(t_shell *shell)
+{
+	close_fds(3);
+	freeargs(shell->cmds);
+	rl_clear_history();
+	shell->cmds = NULL;
+	clear_pids(shell);
 }

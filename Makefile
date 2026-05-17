@@ -21,6 +21,7 @@ SRCS		= main.c \
 		  frees.c \
 		  red.c \
 		  signals.c \
+		  signals_heredoc.c \
 		  utils.c \
 		  helpme.c \
 		  helpme2.c \
@@ -33,8 +34,9 @@ SRCS		= main.c \
 		  execution.c \
 		  readtheline.c \
 		  heredoc.c \
+		  heredoc2.c \
+		  heredoc3.c \
 		  export.c \
-		  test.c \
 		  intro.c \
 		  child_pipe.c \
 		  help_main.c \

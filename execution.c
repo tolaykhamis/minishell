@@ -74,11 +74,9 @@ void	single_execution(t_shell *shell, t_cmdlist *cmd)
 	init_isbuiltin(cmd);
 	if (!prepare_execution(shell, cmd, cmd->saved_stdin, cmd->saved_stdout))
 	{
-		// close_unused_heredocs(cmd); // add this
 		close_all_heredocs(cmd);
 		return ;
 	}
-	// close_unused_heredocs(cmd); // add this
 	close_all_heredocs(cmd);
 	execute_cmd(shell, cmd);
 	dup2(cmd->saved_stdin, STDIN_FILENO);

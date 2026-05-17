@@ -74,17 +74,13 @@ static int	shell_loop(t_shell *shell)
 		if (!line)
 		{
 			if (g_signal == SIGINT)
-        		shell->exit_status = 130;
+				shell->exit_status = 130;
 			break ;
 		}
 		if (g_signal == SIGINT)
-		{
 			shell->exit_status = 130;
-		}
 		if (g_signal == SIGQUIT)
-		{
 			shell->exit_status = 131;
-		}
 		g_signal = 0;
 		if (*line)
 		{
@@ -104,9 +100,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	shell.envp = copy_envp(envp);
-	// printf("%p\n", &shell.envp);
 	shell.export = copy_envp(envp);
-	// printf("%p\n", &shell.export);
 	shell.exit_status = 0;
 	shell.cmds = NULL;
 	shell.pids = NULL;
@@ -116,4 +110,3 @@ int	main(int argc, char **argv, char **envp)
 	clean_before_exit(&shell);
 	return (exit_s);
 }
-

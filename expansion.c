@@ -14,8 +14,9 @@
 
 static int	countsizeofexp(char **av, t_shell *shell)
 {
-	int		i = 0, count;
-	int 	k;
+	int		i;
+	int		k;
+	int		count;
 	char	**split;
 
 	i = 0;

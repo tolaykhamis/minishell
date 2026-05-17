@@ -44,7 +44,7 @@ static int	update_existing(char **envp, char *new)
 {
 	int	i;
 	int	len;
-	int len2;
+	int	len2;
 
 	i = 0;
 	len = 0;
@@ -55,7 +55,7 @@ static int	update_existing(char **envp, char *new)
 		len2 = 0;
 		while (envp[i][len2] && envp[i][len2] != '=')
 			len2++;
-		if (!ft_strncmp(envp[i], new, len) && (len2 ==len))
+		if (!ft_strncmp(envp[i], new, len) && (len2 == len))
 		{
 			free(envp[i]);
 			envp[i] = ft_strdup(new);
@@ -80,7 +80,7 @@ static char	**add_new(char **envp, char *new)
 	i = 0;
 	while (envp[i])
 	{
-		new_envp[i] = ft_strdup(envp[i]); //delete this
+		new_envp[i] = ft_strdup(envp[i]);
 		i++;
 	}
 	new_envp[i] = ft_strdup(new);

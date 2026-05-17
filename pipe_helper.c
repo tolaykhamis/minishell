@@ -35,36 +35,11 @@ pid_t	*init_pids(int count)
 	return (pids);
 }
 
-// void	wait_all(t_shell *shell, pid_t *pids, int count, int *pid_fd) // remove last param int *pid_fd
-// {
-// 	int	i;
-// 	int	status;
-
-// 	i = 0;
-// 	while (i < count)
-// 	{
-// 		waitpid(pids[i], &status, 0);
-// 		if (i == count - 1)
-// 		{
-// 			if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
-//  			{
-// 				// g_signal = 0;
-// 				// printf("HEEEEEEEERRR");
-// 				shell->exit_status = 130;
-//     			close(pid_fd[0]);
-// 				kill(pids[i],SIGINT);
-//     			return ;
-// 			}
-// 		}
-// 		i++;
-// 	}
-// }
-// change this function to this bellow 
-void wait_all(t_shell *shell, pid_t *pids, int count)
+void	wait_all(t_shell *shell, pid_t *pids, int count)
 {
-	int	i;
-	int	status;
-	pid_t pp;
+	int		i;
+	int		status;
+	pid_t	pp;
 
 	pp = 0;
 	i = 0;
@@ -72,7 +47,7 @@ void wait_all(t_shell *shell, pid_t *pids, int count)
 	{
 		pp = wait(&status);
 		if (pp == -1)
-			break;
+			break ;
 		if (pp == pids[count - 1])
 		{
 			if (WIFSIGNALED(status))
