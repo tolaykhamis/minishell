@@ -126,7 +126,7 @@ This subsystem ensured that parsed commands behave consistently with expected Ba
 ## Compilation
 
 ```bash
-git clone <repository_url>
+git clone https://github.com/tolaykhamis/minishell.git minishell
 cd minishell
 make
 ./minishell
@@ -143,14 +143,6 @@ make
 AI tools were used only for conceptual clarification, documentation support, and README improvement.
 
 All implementation, debugging, testing, and final validation were completed manually by the project authors.
-Collapse
-
-
-
-
-
-
-
 
 
 
