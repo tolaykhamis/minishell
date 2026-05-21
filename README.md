@@ -137,6 +137,9 @@ make
 - What's Tokenization? https://www.geeksforgeeks.org/nlp/what-is-tokenization/
 - Command Line Processing https://www.linux.org/threads/bash-03-%E2%80%93-command-line-processing.38676/
 - Bash Parser https://mywiki.wooledge.org/BashParser
+- Bash Explained https://www.digitalocean.com/community/tutorials/what-is-bash?fbclid=PARlRTSAR8V3dleHRuA2FlbQIxMABzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAafEDd57O0LeLhoVLY77B5FztY-Q1xfbq7pNxN0zjroFUrzrc-1rxeQHpOy_ew_aem_s9CYc7qie4YsEJdpxogJ8g
+- The Architecture of Open Source Application https://aosabook.org/en/v1/bash.html?fbclid=PARlRTSAR8V5NleHRuA2FlbQIxMABzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaczei39WLKytftikUjeQuVuAgeBR2bHS8hT1SnerNvgFh8lcSXVVQ1JFT5JCA_aem_yc5qKhwF_95KlJB9nIpMvw#:~:text=Bash%20reads%20input%20from%20the,Unix%20emacs%20and%20vi%20editors
+- Bash Cookbook https://www.oreilly.com/library/view/bash-cookbook/0596526784/ch01s09.html?fbclid=PARlRTSAR8V2FleHRuA2FlbQIxMABzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAafedtjdpdgxPd-7BBlJWszdYS2txyAqt_pQgnyJ5JAVmFcR10YMD9lavu2gtw_aem_mfzGXqhAONvpKEMb7TONMw
 
 ## AI Usage Disclosure
 
