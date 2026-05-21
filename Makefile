@@ -1,64 +1,27 @@
-NAME		= minishell
 
-CC		= cc
-LDFLAGS = -lreadline -L/usr/local/opt/readline/lib
-CFLAGS  = -Wall -Wextra -Werror -I/usr/local/opt/readline/include -g
+NAME := minishell
 
-SRCS		= main.c \
-		  tokenizer.c \
-		  tokenizerfiles.c \
-		  tokenizerops.c \
-		  tokenizerquotes.c \
-		  parsing.c \
-		  parsingredirect.c \
-		  expansion.c \
-		  expansion2.c \
-		  errorhandler.c \
-		  helpersforerror.c \
-		  builtin_functions.c \
-		  external_function.c \
-		  init_t_command.c \
-		  frees.c \
-		  red.c \
-		  signals.c \
-		  signals_heredoc.c \
-		  utils.c \
-		  helpme.c \
-		  helpme2.c \
-		  helpme3.c \
-		  join.c \
-		  pipe.c \
-		  editing_env_path.c \
-		  builtin_fun1.c \
-		  builtin_fun2.c \
-		  execution.c \
-		  readtheline.c \
-		  heredoc.c \
-		  heredoc2.c \
-		  heredoc3.c \
-		  export.c \
-		  intro.c \
-		  child_pipe.c \
-		  help_main.c \
-		  pipe_helper.c \
-		  readtheline2.c
+CC := cc
+CFLAGS := -Wall -Wextra -Werror -g -I/usr/local/opt/readline/include
+LDFLAGS := -lreadline -L/usr/local/opt/readline/lib
 
-OBJS		= $(SRCS:.c=.o)
+SRCS := $(shell find src -name '*.c' -print)
+OBJS := $(SRCS:.c=.o)
 
-all:		$(NAME)
+all: $(NAME)
 
-$(NAME):	$(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
-%.o:		%.c minishell.h
-		$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c minishell.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-		rm -f $(OBJS)
+	rm -f $(OBJS)
 
-fclean:		clean
-		rm -f $(NAME)
+fclean: clean
+	rm -f $(NAME)
 
-re:		fclean all
+re: fclean all
 
-.PHONY:		all clean fclean re
+.PHONY: all clean fclean re
