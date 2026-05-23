@@ -1,6 +1,6 @@
 *This project has been created as part of the 42 curriculum by jomeltah, tkhamis*
 
-# Minishell
+# Minishell 
 
 > A simplified Unix shell reproducing essential Bash behavior through custom parsing, execution pipelines, redirections, builtins, and signal management.
 
